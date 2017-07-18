@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+  // background: url(../images/background.jpg) no-repeat center center fixed;
+  min-height: 100vh;
+  background:
+  /* top, transparent red, faked with gradient */
+  linear-gradient(
+    rgba(237, 239, 208, 0.45),
+    rgba(237, 239, 208, 0.45)
+  ),
+  /* bottom, image */
+  url(../images/background.jpg) no-repeat center center fixed;
+}

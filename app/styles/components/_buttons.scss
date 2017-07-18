@@ -1,0 +1,30 @@
+.button-xlarge {
+  font-size: 125%;
+}
+
+.button {
+	display: block;
+	padding: 0;
+	width: 450px;
+	height: 50px;
+	border: 2px solid #2d46b9;
+	border-radius: 40px;
+	background: #2d46b9;
+	color: #fff;
+	letter-spacing: 2px;
+	font-size: 18px;
+	text-transform: uppercase;
+	font-family: 'Nunito', sans-serif;
+	cursor: pointer;
+	-webkit-transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+	transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+
+	&:hover {
+		background-color: transparent;
+		color: #000;
+	}
+
+	&:focus {
+		outline: none;
+	}
+}
