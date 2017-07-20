@@ -32,14 +32,22 @@
     <section>
       <div class="splash-container">
         <div class="splash">
-          <h1 class="is-center">What's the weather?</h1>
           <div class="pure-g">
-            <div class="pure-u-1 pure-u-md-1-2 is-center">
-              <button class="button-xlarge pure-button" type="button" onclick="model.getLocation()">Now</button>
-            </div>
-            <div class="pure-u-1 pure-u-md-1-2 is-center">
-              <a class="button-xlarge pure-button" href="#">Forecast</a>
-            </div>
+              <div class="pure-u-1 is-center">
+                  <p id="city" class="city"></p>
+                  <p id="calender" class="calender"></p>
+              </div>
+              <div class="pure-u-1 is-center">
+                  <div class="clock-container">
+                      <span id="clock" class="clock"></span>
+                      <span class="clock blinking-clock">:</span>
+                      <span id="minutes" class="clock"></span>
+                  </div>
+              </div>
+              <div class="pure-u-1 is-center">
+                  <p id="tempature"></p>
+                  <p id="description"></p>
+              </div>
           </div>
         </div>
       </div>
@@ -65,6 +73,7 @@
 
     <!-- build:js scripts/main.js -->
     <script src="scripts/main.js"></script>
+    <script src="scripts/clock.js"></script>
     <!-- endbuild -->
   </body>
 </html>

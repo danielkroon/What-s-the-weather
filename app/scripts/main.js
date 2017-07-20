@@ -20,7 +20,7 @@ var model = {
 			geo.latitude = position.coords.latitude;
 			geo.longitude = position.coords.longitude;
 			console.log(geo);
-			model.getWeather();
+			model.getWeather(geo);
 		};
 
 		// check if browser supports geolocation
@@ -30,7 +30,7 @@ var model = {
 			alert('Geolocation is not supported by your browser');
 		};
 	},
-	getWeather: function() {
+	getWeather: function(geo) {
 		var key = "f41830b4b65758fc5d4738ab592a74bd";
 		var weather = "http://api.openweathermap.org/data/2.5/weather?lat=" + geo.latitude + "&lon=" + geo.longitude + "&APPID=" + key + "&units=metric";
 		// http://api.openweathermap.org/data/2.5/weather?lat=52.3915898&lon=4.6290824&APPID=f41830b4b65758fc5d4738ab592a74bd
@@ -55,3 +55,5 @@ var view = {
 		document.getElementById("city").innerHTML = city;
 	}
 };
+
+document.onload = model.getLocation();
