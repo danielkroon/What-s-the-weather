@@ -42,9 +42,34 @@ var model = {
 				var city = data.name;
 				var tempature = data.main.temp;
 				var description = data.weather[0].description;
-				view.showWeather(tempature, description, city)
+				view.showWeather(tempature, description, city);
+				model.getIcon(data);
 			}
 		});
+	},
+	getIcon: function(data) {
+		var icon = document.getElementById('icon-img');
+		var iconID = data.weather[0].icon;
+
+		if (iconID === '01d') {
+			icon.src = '../images/clear.svg';
+		} else if (iconID === '09d') {
+			icon.src = '../images/flurries.svg';
+		} else if (iconID === '10d') {
+			icon.src = '../images/chancerain.svg';
+		} else if (iconID === '09d') {
+			icon.src = '../images/rain.svg';
+		} else if (iconID === '13d') {
+			icon.src = '../images/snow.svg';
+		} else if (iconID === '50d') {
+			icon.src = '../images/fog.svg';
+		} else if (iconID === '02d') {
+			icon.src = '../images/partlycloudy.svg';
+		} else if (iconID === '04d') {
+			icon.src = '../images/cloudy.svg';
+		} else {
+			icon.src = '../images/unkown.svg';
+		}
 	}
 };
 
