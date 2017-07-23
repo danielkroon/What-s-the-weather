@@ -19,8 +19,8 @@ var model = {
 		function succes(position) {
 			geo.latitude = position.coords.latitude;
 			geo.longitude = position.coords.longitude;
-			console.log(geo);
 			model.getWeather(geo);
+			model.getForecast(geo);
 		};
 
 		// check if browser supports geolocation
@@ -31,9 +31,8 @@ var model = {
 		};
 	},
 	getWeather: function(geo) {
-		var key = 'f41830b4b65758fc5d4738ab592a74bd';
-		var weather = 'http://api.openweathermap.org/data/2.5/weather?lat=' + geo.latitude + '&lon=' + geo.longitude + '&APPID=' + key + '&units=metric';
-		// http://api.openweathermap.org/data/2.5/weather?lat=52.3915898&lon=4.6290824&APPID=f41830b4b65758fc5d4738ab592a74bd
+		var keyWeather = 'c77539be6727a262645abebe5edee96c';
+		var weather = 'http://api.openweathermap.org/data/2.5/weather?lat=' + geo.latitude + '&lon=' + geo.longitude + '&APPID=' + keyWeather + '&units=metric';
 
 		$.ajax({
 			url: weather,
@@ -47,7 +46,27 @@ var model = {
 				view.changeBackground(data);
 			}
 		});
-	}
+	},
+  getForecast: function(geo) {
+    var keyForecast = '36b9b3713724a3a85221616772b7af78';
+    var forecast = 'http://api.openweathermap.org/data/2.5/forecast/daily?lat=' + geo.latitude + '&lon=' + geo.longitude + '&APPID=' + keyForecast + '&units=metric';
+
+    $.ajax({
+      url: forecast,
+      dataType: 'jsonp',
+      success: function(data) {
+		// get the date out of the object
+		  var dateStamp = data.list[0].dt;
+		  var timeForecast = moment.unix(dateStamp)._d;
+        // var timeForecast = data.name;
+        // var tempatureForecast = data.main.temp;
+        // var descriptionForecast = data.weather[0].description;
+        // view.showForecast(timeForecast, tempatureForecast, descriptionForecast);
+		console.log(data);
+		console.log(timeForecast);
+      }
+    });
+  }
 };
 
 var view = {
@@ -56,6 +75,11 @@ var view = {
 		document.getElementById('description').innerHTML = description;
 		document.getElementById('city').innerHTML = city;
 	},
+  showForecast: function(timeForecast, tempatureForecast, descriptionForecast) {
+    document.getElementById('tempature-forecast').innerHTML = tempatureForecast;
+		document.getElementById('description-forecast').innerHTML = descriptionForecast;
+		document.getElementById('time-forecast').innerHTML = timeForecast;
+  },
 	getIcon: function(data) {
 		var icon = document.getElementById('icon-img');
 		var iconID = data.weather[0].icon;
@@ -92,22 +116,39 @@ var view = {
 				icon.src = '../images/unkown.svg';
 		}
 	},
-  changeBackground: function(data) {
-    var body = document.getElementsByTagName('body');
-	var weatherID = data.weather[0].id;
+	changeBackground: function(data) {
+		var body = document.body;
+		var weatherID = data.weather[0].id;
 
-	// convert number to a astring, then extract the first digit
-	var one = String(weatherID).charAt(0);
-	// convert the first digit back to an integer
-	var weatherFirstChart = Number(one);
+		// convert number to a astring, then extract the first digit
+		var one = String(weatherID).charAt(0);
+		// convert the first digit back to an integer
+		var weatherFirstChart = Number(one);
 
-    switch (weatherFirstChart) {
-      case 5:
-	  console.log('im working bitch');
-        break;
-      default:
-    }
-  }
+		switch (weatherFirstChart) {
+			case 6:
+				body.classList.add('body-snow');
+				break;
+			case 8:
+				body.classList.add('body-cloud');
+				break;
+			case 7:
+				body.classList.add('body-fog');
+				break;
+			case 2:
+				body.classList.add('body-storm');
+				break;
+			case 9:
+				body.classList.add('body-extreme');
+				break;
+			case 5:
+				body.classList.add('body-rain');
+				break;
+			case 3:
+				body.classList.add('body-drizzle');
+				break;
+		}
+	}
 };
 
 document.onload = model.getLocation();
