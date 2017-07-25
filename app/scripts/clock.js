@@ -42,3 +42,6 @@ function displayTime() {
 }
 
 document.onload = displayTime();
+
+// set interval to update clock
+setInterval(displayTime, 1000);

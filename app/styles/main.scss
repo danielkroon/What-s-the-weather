@@ -1,7 +1,14 @@
-@import "layout/grid.scss";
-@import "components/buttons.scss";
+// base
 @import "base/typography.scss";
+
+// layout
+@import "layout/grid.scss";
+
+// pages
 @import "pages/pages.scss";
-@import "components/splash.scss";
+
+// components
 @import "components/display.scss";
 @import "components/blink.scss";
+@import "components/forecast.scss";
+@import "components/buttons.scss";
