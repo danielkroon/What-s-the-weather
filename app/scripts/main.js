@@ -49,21 +49,28 @@ var model = {
 	},
   getForecast: function(geo) {
     var keyForecast = '36b9b3713724a3a85221616772b7af78';
-    var forecast = 'http://api.openweathermap.org/data/2.5/forecast/daily?lat=' + geo.latitude + '&lon=' + geo.longitude + '&APPID=' + keyForecast + '&units=metric';
+    var forecast = 'http://api.openweathermap.org/data/2.5/forecast/daily?lat=' + geo.latitude + '&lon=' + geo.longitude + '&APPID=' + keyForecast + '&units=metric&cnt=5';
 
     $.ajax({
       url: forecast,
       dataType: 'jsonp',
       success: function(data) {
-		// get the date out of the object
-		  var dateStamp = data.list[0].dt;
-		  var timeForecast = moment.unix(dateStamp)._d;
-        // var timeForecast = data.name;
-        // var tempatureForecast = data.main.temp;
-        // var descriptionForecast = data.weather[0].description;
-        // view.showForecast(timeForecast, tempatureForecast, descriptionForecast);
-		console.log(data);
-		console.log(timeForecast);
+	  	console.log(data);
+
+      // get child nodes of div
+			var getForecastContainer = document.getElementsByClassName('forecast-container')[0].children;
+			console.log(getForecastContainer);
+
+
+  		// loop over forecast array (list). Assign data to variables and create elements.
+  		data.list.forEach(function(index) {
+  			console.log(index);
+  			var forecastDay = moment.unix(index.dt).format('dddd, DD MMM YYYY');
+  			var forecastMaxTemp = index.temp.max;
+  			var forecastMinTemp = index.temp.min;
+  			var forecastDescription = index.weather[0].description;
+  			console.log(forecastDay + forecastDescription + forecastMaxTemp + forecastMinTemp);
+  		});
       }
     });
   }
