@@ -10,29 +10,52 @@ var model = {
 			maximumAge: 0
 		};
 
+		// check if browser supports localStorage/sessionStorage
+		if (typeof(Storage) !== 'undefined') {
+			if (sessionStorage.getItem('latitude') && sessionStorage.getItem('longitude')) {
+				var latitude = sessionStorage.getItem('latitude');
+				var longitude = sessionStorage.getItem('longitude')
+
+				model.getWeather(latitude, longitude);
+				model.getForecast(latitude, longitude);
+			} else {
+				checkGeoLocation();
+			}
+		} else {
+			checkGeoLocation();
+		};
+
+		// get location
+		function checkGeoLocation() {
+			// check if browser supports geolocation
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(succes, error, options);
+			} else {
+				alert('Geolocation is not supported by your browser');
+			};
+		};
+
 		/// run if gelocation.getCurrentPosition is unsuccesfull.
 		function error() {
-			alert("We couldn't find you!");
+			alert('We couldn\'t find you!');
 		};
 
 		// run if gelocation.getCurrentPosition is succesfull.
 		function succes(position) {
-			geo.latitude = position.coords.latitude;
-			geo.longitude = position.coords.longitude;
-			model.getWeather(geo);
-			model.getForecast(geo);
-		};
+			var latitude = position.coords.latitude;
+			var longitude = position.coords.longitude;
 
-		// check if browser supports geolocation
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(succes, error, options);
-		} else {
-			alert('Geolocation is not supported by your browser');
+			// save latitude & longitude in sessionStorage
+			sessionStorage.setItem('latitude', latitude);
+			sessionStorage.setItem('longitude', longitude);
+
+			model.getWeather(latitude, longitude);
+			model.getForecast(latitude, longitude);
 		};
 	},
-	getWeather: function(geo) {
+	getWeather: function(latitude, longitude) {
 		var keyWeather = 'c77539be6727a262645abebe5edee96c';
-		var weather = 'http://api.openweathermap.org/data/2.5/weather?lat=' + geo.latitude + '&lon=' + geo.longitude + '&APPID=' + keyWeather + '&units=metric';
+		var weather = 'http://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude + '&APPID=' + keyWeather + '&units=metric';
 
 		$.ajax({
 			url: weather,
@@ -47,33 +70,33 @@ var model = {
 			}
 		});
 	},
-  getForecast: function(geo) {
-    var keyForecast = '36b9b3713724a3a85221616772b7af78';
-    var forecast = 'http://api.openweathermap.org/data/2.5/forecast/daily?lat=' + geo.latitude + '&lon=' + geo.longitude + '&APPID=' + keyForecast + '&units=metric&cnt=5';
+	getForecast: function(latitude, longitude) {
+		var keyForecast = '36b9b3713724a3a85221616772b7af78';
+		var forecast = 'http://api.openweathermap.org/data/2.5/forecast/daily?lat=' + latitude + '&lon=' + longitude + '&APPID=' + keyForecast + '&units=metric&cnt=5';
 
-    $.ajax({
-      url: forecast,
-      dataType: 'jsonp',
-      success: function(data) {
-	  	console.log(data);
+		$.ajax({
+			url: forecast,
+			dataType: 'jsonp',
+			success: function(data) {
+				console.log(data);
 
-      // get child nodes of div
-			var getForecastContainer = document.getElementsByClassName('forecast-container')[0].children;
-			console.log(getForecastContainer);
+				// get child nodes of div
+				var getForecastContainer = document.getElementsByClassName('forecast-container')[0].children;
+				console.log(getForecastContainer);
 
 
-  		// loop over forecast array (list). Assign data to variables and create elements.
-  		data.list.forEach(function(index) {
-  			console.log(index);
-  			var forecastDay = moment.unix(index.dt).format('dddd, DD MMM YYYY');
-  			var forecastMaxTemp = index.temp.max;
-  			var forecastMinTemp = index.temp.min;
-  			var forecastDescription = index.weather[0].description;
-  			console.log(forecastDay + forecastDescription + forecastMaxTemp + forecastMinTemp);
-  		});
-      }
-    });
-  }
+				// loop over forecast array (list). Assign data to variables and create elements.
+				data.list.forEach(function(index) {
+					console.log(index);
+					var forecastDay = moment.unix(index.dt).format('dddd, DD MMM YYYY');
+					var forecastMaxTemp = index.temp.max;
+					var forecastMinTemp = index.temp.min;
+					var forecastDescription = index.weather[0].description;
+					console.log(forecastDay + forecastDescription + forecastMaxTemp + forecastMinTemp);
+				});
+			}
+		});
+	}
 };
 
 var view = {
@@ -82,11 +105,11 @@ var view = {
 		document.getElementById('description').innerHTML = description;
 		document.getElementById('city').innerHTML = city;
 	},
-  showForecast: function(timeForecast, tempatureForecast, descriptionForecast) {
-    document.getElementById('tempature-forecast').innerHTML = tempatureForecast;
+	showForecast: function(timeForecast, tempatureForecast, descriptionForecast) {
+		document.getElementById('tempature-forecast').innerHTML = tempatureForecast;
 		document.getElementById('description-forecast').innerHTML = descriptionForecast;
 		document.getElementById('time-forecast').innerHTML = timeForecast;
-  },
+	},
 	getIcon: function(data) {
 		var icon = document.getElementById('icon-img');
 		var iconID = data.weather[0].icon;
