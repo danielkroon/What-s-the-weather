@@ -81,8 +81,8 @@ var model = {
 				console.log(data);
 
 				// get child nodes of div
-				var getForecastContainer = document.getElementsByClassName('forecast-container')[0].children;
-				console.log(getForecastContainer);
+                                				var getForecastContainer = document.getElementsByClassName('forecast-container')[0].children;
+                                				console.log(getForecastContainer);
 
 
 				// loop over forecast array (list). Assign data to variables and create elements.
