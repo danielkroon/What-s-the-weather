@@ -11,13 +11,13 @@ var model = {
     }
 
     // check if browser supports localStorage/sessionStorage.
-    if (typeof Storage !== "undefined") {
+    if (typeof Storage !== 'undefined') {
       if (
-        sessionStorage.getItem("latitude") &&
-        sessionStorage.getItem("longitude")
+        sessionStorage.getItem('latitude') &&
+        sessionStorage.getItem('longitude')
       ) {
-        var latitude = sessionStorage.getItem("latitude")
-        var longitude = sessionStorage.getItem("longitude")
+        var latitude = sessionStorage.getItem('latitude')
+        var longitude = sessionStorage.getItem('longitude')
 
         model.getWeather(latitude, longitude)
         model.getForecast(latitude, longitude)
@@ -34,7 +34,7 @@ var model = {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(succes, error, options)
       } else {
-        alert("Geolocation is not supported by your browser")
+        alert('Geolocation is not supported by your browser')
       }
     }
 
@@ -49,27 +49,27 @@ var model = {
       var longitude = position.coords.longitude
 
       // save latitude & longitude in sessionStorage
-      sessionStorage.setItem("latitude", latitude)
-      sessionStorage.setItem("longitude", longitude)
+      sessionStorage.setItem('latitude', latitude)
+      sessionStorage.setItem('longitude', longitude)
 
       model.getWeather(latitude, longitude)
       model.getForecast(latitude, longitude)
     }
   },
   getWeather: function(latitude, longitude) {
-    var keyWeather = "c77539be6727a262645abebe5edee96c"
+    var keyWeather = 'c77539be6727a262645abebe5edee96c'
     var weather =
-      "http://api.openweathermap.org/data/2.5/weather?lat=" +
+      'http://api.openweathermap.org/data/2.5/weather?lat=' +
       latitude +
-      "&lon=" +
+      '&lon=' +
       longitude +
-      "&APPID=" +
+      '&APPID=' +
       keyWeather +
-      "&units=metric"
+      '&units=metric'
 
     $.ajax({
       url: weather,
-      dataType: "jsonp",
+      dataType: 'jsonp',
       success: function(data) {
         var city = data.name
         var tempature = data.main.temp
@@ -81,19 +81,19 @@ var model = {
     })
   },
   getForecast: function(latitude, longitude) {
-    var keyForecast = "36b9b3713724a3a85221616772b7af78"
+    var keyForecast = '36b9b3713724a3a85221616772b7af78'
     var forecast =
-      "http://api.openweathermap.org/data/2.5/forecast/daily?lat=" +
+      'http://api.openweathermap.org/data/2.5/forecast/daily?lat=' +
       latitude +
-      "&lon=" +
+      '&lon=' +
       longitude +
-      "&APPID=" +
+      '&APPID=' +
       keyForecast +
-      "&units=metric&cnt=5"
+      '&units=metric&cnt=5'
 
     $.ajax({
       url: forecast,
-      dataType: "jsonp",
+      dataType: 'jsonp',
       success: function(data) {
         console.log(data)
 
@@ -103,7 +103,7 @@ var model = {
         // loop over list array. Each array item is one day.
         data.list.forEach(function(index) {
           // assign forecast data of the day to variables.
-          var forecastDay = moment.unix(index.dt).format("dddd, DD MMM YYYY")
+          var forecastDay = moment.unix(index.dt).format('dddd, DD MMM YYYY')
           var forecastMaxTemp = index.temp.max
           var forecastMinTemp = index.temp.min
           var forecastDescription = index.weather[0].description
@@ -112,7 +112,7 @@ var model = {
           counter++
 
           // get span elements of divs with class day.
-          var divs = document.querySelectorAll(".day")[counter]
+          var divs = document.querySelectorAll('.day')[counter]
 
           // select each span of the day.
           var dateSpan = divs.children[0]
@@ -121,7 +121,7 @@ var model = {
 
           // set forecast data to spans of each day.
           dateSpan.innerHTML = forecastDay
-          tempatureSpan.innerHTML = forecastMinTemp + " / " + forecastMaxTemp
+          tempatureSpan.innerHTML = forecastMinTemp + ' / ' + forecastMaxTemp
           descriptionSpan.innerHTML = forecastDescription
         })
       }
@@ -131,51 +131,51 @@ var model = {
 
 var view = {
   showWeather: function(tempature, description, city) {
-    document.getElementById("tempature").innerHTML = tempature
-    document.getElementById("description").innerHTML = description
-    document.getElementById("city").innerHTML = city
+    document.getElementById('tempature').innerHTML = tempature
+    document.getElementById('description').innerHTML = description
+    document.getElementById('city').innerHTML = city
   },
   showForecast: function(timeForecast, tempatureForecast, descriptionForecast) {
-    document.getElementById("tempature-forecast").innerHTML = tempatureForecast
+    document.getElementById('tempature-forecast').innerHTML = tempatureForecast
     document.getElementById(
-      "description-forecast"
+      'description-forecast'
     ).innerHTML = descriptionForecast
-    document.getElementById("time-forecast").innerHTML = timeForecast
+    document.getElementById('time-forecast').innerHTML = timeForecast
   },
   getIcon: function(data) {
-    var icon = document.getElementById("icon-img")
+    var icon = document.getElementById('icon-img')
     var iconID = data.weather[0].icon
 
     switch (iconID) {
-      case "01d":
-        icon.src = "../images/clear.svg"
+      case '01d':
+        icon.src = '../images/clear.svg'
         break
-      case "02d":
-        icon.src = "../images/mostlysunny.svg"
+      case '02d':
+        icon.src = '../images/mostlysunny.svg'
         break
-      case "03d":
-        icon.src = "../images/partlysunny.svg"
+      case '03d':
+        icon.src = '../images/partlysunny.svg'
         break
-      case "04d":
-        icon.src = "../images/cloudy.svg"
+      case '04d':
+        icon.src = '../images/cloudy.svg'
         break
-      case "09d":
-        icon.src = "../images/rain.svg"
+      case '09d':
+        icon.src = '../images/rain.svg'
         break
-      case "10d":
-        icon.src = "../images/chancerain.svg"
+      case '10d':
+        icon.src = '../images/chancerain.svg'
         break
-      case "11d":
-        icon.src = "../images/tstorms.svg"
+      case '11d':
+        icon.src = '../images/tstorms.svg'
         break
-      case "13d":
-        icon.src = "../images/chancesnow.svg"
+      case '13d':
+        icon.src = '../images/chancesnow.svg'
         break
-      case "50d":
-        icon.src = "../images/fog.svg"
+      case '50d':
+        icon.src = '../images/fog.svg'
         break
       default:
-        icon.src = "../images/unkown.svg"
+        icon.src = '../images/unkown.svg'
     }
   },
   changeBackground: function(data) {
@@ -189,25 +189,25 @@ var view = {
 
     switch (weatherFirstChart) {
       case 6:
-        body.classList.add("body-snow")
+        body.classList.add('body-snow')
         break
       case 8:
-        body.classList.add("body-cloud")
+        body.classList.add('body-cloud')
         break
       case 7:
-        body.classList.add("body-fog")
+        body.classList.add('body-fog')
         break
       case 2:
-        body.classList.add("body-storm")
+        body.classList.add('body-storm')
         break
       case 9:
-        body.classList.add("body-extreme")
+        body.classList.add('body-extreme')
         break
       case 5:
-        body.classList.add("body-rain")
+        body.classList.add('body-rain')
         break
       case 3:
-        body.classList.add("body-drizzle")
+        body.classList.add('body-drizzle')
         break
     }
   }
