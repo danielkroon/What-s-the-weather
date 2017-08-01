@@ -103,7 +103,7 @@ var model = {
         // loop over list array. Each array item is one day.
         data.list.forEach(function(index) {
           // assign forecast data of the day to variables.
-          var forecastDay = moment.unix(index.dt).format('dddd, DD MMM YYYY')
+          var forecastDay = moment.unix(index.dt).format('dddd, DD MMM')
           var forecastMaxTemp = index.temp.max
           var forecastMinTemp = index.temp.min
           var forecastDescription = index.weather[0].description
@@ -147,35 +147,35 @@ var view = {
     var iconID = data.weather[0].icon
 
     switch (iconID) {
-      case '01d':
+      case ('01d', '01n'):
         icon.src = '../images/clear.svg'
         break
-      case '02d':
+      case ('02d', '02n'):
         icon.src = '../images/mostlysunny.svg'
         break
-      case '03d':
+      case ('03d', '03n'):
         icon.src = '../images/partlysunny.svg'
         break
-      case '04d':
+      case ('04d', '04n'):
         icon.src = '../images/cloudy.svg'
         break
-      case '09d':
+      case ('09d', '09n'):
         icon.src = '../images/rain.svg'
         break
-      case '10d':
+      case ('10d', '10n'):
         icon.src = '../images/chancerain.svg'
         break
-      case '11d':
+      case ('11d', '11n'):
         icon.src = '../images/tstorms.svg'
         break
-      case '13d':
+      case ('13d', '13n'):
         icon.src = '../images/chancesnow.svg'
         break
-      case '50d':
+      case ('50d', '50n'):
         icon.src = '../images/fog.svg'
         break
       default:
-        icon.src = '../images/unkown.svg'
+        icon.src = '../images/unknown.svg'
     }
   },
   changeBackground: function(data) {
@@ -210,7 +210,14 @@ var view = {
         body.classList.add('body-drizzle')
         break
     }
+    // call function to remove preloader
+    view.removePreloader()
+  },
+  removePreloader: function() {
+    var loader = document.getElementById('loader')
+    loader.remove()
   }
 }
 
+// call function when document is loaded
 document.onload = model.getLocation()
