@@ -9,6 +9,7 @@
   height: 100%;
   z-index: 1000;
   background: white;
+  -webkit-transition: opacity 0.3s ease;
 }
 
 .loader--span {

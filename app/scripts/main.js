@@ -97,32 +97,38 @@ var model = {
       success: function(data) {
         console.log(data)
 
-        // counter that counts number of times the forEach function loops over the list array with forecast data.
-        var counter = -1
+        var forecastContainer = document.createElement('div')
+        forecastContainer.className = 'pure-g is-center forecast-container'
 
         // loop over list array. Each array item is one day.
         data.list.forEach(function(index) {
           // assign forecast data of the day to variables.
+          var sectionForecast = document.getElementById('sectionForecast')
+          var container = document.createElement('div')
+          var dateSpan = document.createElement('span')
+          var tempatureSpan = document.createElement('span')
+          var descriptionSpan = document.createElement('span')
+
+          container.className = 'pure-u-1 pure-u-md-4-24 day'
+          dateSpan.className = 'date-forecast forecast--span'
+          tempatureSpan.className = 'tempature-forecast forecast--span'
+          descriptionSpan.className = 'description-forecast forecast--span'
+
           var forecastDay = moment.unix(index.dt).format('dddd, DD MMM')
           var forecastMaxTemp = index.temp.max
           var forecastMinTemp = index.temp.min
           var forecastDescription = index.weather[0].description
 
-          // update counter so I can use it targeting the correct day div element.
-          counter++
-
-          // get span elements of divs with class day.
-          var divs = document.querySelectorAll('.day')[counter]
-
-          // select each span of the day.
-          var dateSpan = divs.children[0]
-          var tempatureSpan = divs.children[1]
-          var descriptionSpan = divs.children[2]
-
-          // set forecast data to spans of each day.
           dateSpan.innerHTML = forecastDay
-          tempatureSpan.innerHTML = forecastMinTemp + ' / ' + forecastMaxTemp
+          tempatureSpan.innerHTML = forecastMaxTemp + ' / ' + forecastMinTemp
           descriptionSpan.innerHTML = forecastDescription
+
+          container.appendChild(dateSpan)
+          container.appendChild(tempatureSpan)
+          container.appendChild(descriptionSpan)
+
+          forecastContainer.appendChild(container)
+          sectionForecast.appendChild(forecastContainer)
         })
       }
     })
@@ -147,31 +153,31 @@ var view = {
     var iconID = data.weather[0].icon
 
     switch (iconID) {
-      case ('01d', '01n'):
+      case '01d' || '01n':
         icon.src = '../images/clear.svg'
         break
-      case ('02d', '02n'):
+      case '02d' || '02n':
         icon.src = '../images/mostlysunny.svg'
         break
-      case ('03d', '03n'):
+      case '03d' || '03n':
         icon.src = '../images/partlysunny.svg'
         break
-      case ('04d', '04n'):
+      case '04d' || '04n':
         icon.src = '../images/cloudy.svg'
         break
-      case ('09d', '09n'):
+      case '09d' || '09n':
         icon.src = '../images/rain.svg'
         break
-      case ('10d', '10n'):
+      case '10d' || '10n':
         icon.src = '../images/chancerain.svg'
         break
-      case ('11d', '11n'):
+      case '11d' || '11n':
         icon.src = '../images/tstorms.svg'
         break
-      case ('13d', '13n'):
+      case '13d' || '13n':
         icon.src = '../images/chancesnow.svg'
         break
-      case ('50d', '50n'):
+      case '50d' || '50n':
         icon.src = '../images/fog.svg'
         break
       default:
