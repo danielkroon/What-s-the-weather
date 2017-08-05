@@ -1,0 +1,24 @@
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.fadeout {
+  opacity: 0;
+  -moz-animation: fadeout 1s ease-out;
+  -webkit-animation: fadeout 1s ease-out;
+  animation: fadeout 1s ease-out;
+}

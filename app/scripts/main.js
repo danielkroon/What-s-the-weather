@@ -221,7 +221,16 @@ var view = {
   },
   removePreloader: function() {
     var loader = document.getElementById('loader')
-    loader.remove()
+
+    // wait to make sure all data is loaded into page
+    setTimeout(function() {
+      loader.className = 'fadeout'
+    }, 2000)
+
+    // wait until fadeout of preloader is done
+    setTimeout(function() {
+      loader.remove()
+    }, 4000)
   }
 }
 

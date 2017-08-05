@@ -1,14 +1,15 @@
 // base
-@import "base/typography.scss";
+@import "base/typography";
 
 // layout
-@import "layout/grid.scss";
+@import "layout/grid";
 
 // pages
-@import "pages/pages.scss";
+@import "pages/pages";
 
 // components
-@import "components/display.scss";
-@import "components/preloader.scss";
-@import "components/forecast.scss";
-@import "components/buttons.scss";
+@import "components/display";
+@import "components/preloader";
+@import "components/forecast";
+@import "components/buttons";
+@import "components/fade";
