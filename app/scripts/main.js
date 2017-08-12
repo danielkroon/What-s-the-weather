@@ -120,7 +120,8 @@ var model = {
           var forecastDescription = index.weather[0].description
 
           dateSpan.innerHTML = forecastDay
-          tempatureSpan.innerHTML = forecastMaxTemp + ' / ' + forecastMinTemp
+          tempatureSpan.innerHTML =
+            forecastMaxTemp + ' &deg;C' + ' / ' + forecastMinTemp + ' &deg;C'
           descriptionSpan.innerHTML = forecastDescription
 
           container.appendChild(dateSpan)
@@ -236,3 +237,12 @@ var view = {
 
 // call function when document is loaded
 document.onload = model.getLocation()
+
+function checkbox() {
+  var checkbox = document.getElementById('checkbox').checked
+  if (checkbox == true) {
+    console.log('Fahrenheit')
+  } else {
+    console.log('Celsius')
+  }
+}
