@@ -1,0 +1,58 @@
+// colors
+$color-checkbox-success: rgb(244, 167, 29);
+$color-checkbox-default: #8e8e93;
+
+// effects
+$transition: .3s cubic-bezier(.95, .05, .795, .035);
+
+// size
+$width: 50px;
+$height: 25px;
+
+.toggle__container {
+  display: flex;
+  justify-content: center;
+}
+
+.toggle {
+  cursor: pointer;
+  margin: 12px;
+
+  &__input {
+    display: none;
+
+    //.toggle__input:checked + .toggle__control
+    &:checked + .toggle__control {
+      background-color: $color-checkbox-success;
+      border-color: $color-checkbox-success;
+
+      &:after {
+        transform: translateX($width/2);
+      }
+    }
+  }
+  &__control {
+    transition: $transition;
+    width: $width;
+    height: $height;
+    display: block;
+    border: 2px solid $color-checkbox-default;
+    border-radius: $height;
+    background-color: $color-checkbox-default;
+    position: relative;
+
+    &:after {
+      transition: $transition;
+      content: "";
+      width: 21px;
+      height: 21px;
+      display: block;
+      background-color: white;
+      border-radius: 50%;
+      box-shadow: 0 1px 2px rgba(black, .3), 0 3px 2px rgba(black, 0.3);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+}
