@@ -1,3 +1,22 @@
+var unit = 'metric'
+
+function conversion() {
+  var checkbox = document.getElementById('checkbox').checked
+  if (checkbox == true) {
+    unit = 'imperial'
+    model.getLocation(unit)
+
+    var x = document.querySelector('#deg')
+    x.innerHTML = '&deg;F'
+  } else {
+    unit = 'metric'
+    model.getLocation(unit)
+
+    var x = document.querySelector('#deg')
+    x.innerHTML = '&deg;C'
+  }
+}
+
 var model = {
   getLocation: function() {
     // create geo object to store lat long info in.
@@ -19,8 +38,8 @@ var model = {
         var latitude = sessionStorage.getItem('latitude')
         var longitude = sessionStorage.getItem('longitude')
 
-        model.getWeather(latitude, longitude)
-        model.getForecast(latitude, longitude)
+        model.getWeather(latitude, longitude, unit)
+        model.getForecast(latitude, longitude, unit)
       } else {
         checkGeoLocation()
       }
@@ -52,11 +71,11 @@ var model = {
       sessionStorage.setItem('latitude', latitude)
       sessionStorage.setItem('longitude', longitude)
 
-      model.getWeather(latitude, longitude)
-      model.getForecast(latitude, longitude)
+      model.getWeather(latitude, longitude, unit)
+      model.getForecast(latitude, longitude, unit)
     }
   },
-  getWeather: function(latitude, longitude) {
+  getWeather: function(latitude, longitude, unit) {
     var keyWeather = 'c77539be6727a262645abebe5edee96c'
     var weather =
       'http://api.openweathermap.org/data/2.5/weather?lat=' +
@@ -65,7 +84,8 @@ var model = {
       longitude +
       '&APPID=' +
       keyWeather +
-      '&units=metric'
+      '&units=' +
+      unit
 
     $.ajax({
       url: weather,
@@ -80,7 +100,7 @@ var model = {
       }
     })
   },
-  getForecast: function(latitude, longitude) {
+  getForecast: function(latitude, longitude, unit) {
     var keyForecast = '36b9b3713724a3a85221616772b7af78'
     var forecast =
       'http://api.openweathermap.org/data/2.5/forecast/daily?lat=' +
@@ -89,19 +109,34 @@ var model = {
       longitude +
       '&APPID=' +
       keyForecast +
-      '&units=metric&cnt=5'
+      '&units=' +
+      unit +
+      '&cnt=5'
 
     $.ajax({
       url: forecast,
       dataType: 'jsonp',
       success: function(data) {
-        console.log(data)
+        // count number of times the next loop will run
+        var counter = 0
+
+        if (counter >= 5) {
+          debugger
+          var x = document.querySelector('.forecast-container')
+          while (x.firsChild) {
+            x.removeChild(x.firstChild)
+          }
+          x.remove()
+        }
 
         var forecastContainer = document.createElement('div')
         forecastContainer.className = 'pure-g is-center forecast-container'
 
         // loop over list array. Each array item is one day.
         data.list.forEach(function(index) {
+          // update the counter
+          counter++
+
           // assign forecast data of the day to variables.
           var sectionForecast = document.getElementById('sectionForecast')
           var container = document.createElement('div')
@@ -237,12 +272,3 @@ var view = {
 
 // call function when document is loaded
 document.onload = model.getLocation()
-
-function checkbox() {
-  var checkbox = document.getElementById('checkbox').checked
-  if (checkbox == true) {
-    console.log('Fahrenheit')
-  } else {
-    console.log('Celsius')
-  }
-}
