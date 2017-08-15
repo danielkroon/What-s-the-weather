@@ -117,25 +117,35 @@ var model = {
       url: forecast,
       dataType: 'jsonp',
       success: function(data) {
-        // count number of times the next loop will run
-        var counter = 0
-
-        if (counter >= 5) {
-          debugger
-          var x = document.querySelector('.forecast-container')
-          while (x.firsChild) {
-            x.removeChild(x.firstChild)
-          }
-          x.remove()
+        if (!document.querySelector('.forecast-container')) {
+          var forecastContainer = document.createElement('div')
+          forecastContainer.className = 'pure-g is-center forecast-container'
         }
 
-        var forecastContainer = document.createElement('div')
-        forecastContainer.className = 'pure-g is-center forecast-container'
-
         // loop over list array. Each array item is one day.
-        data.list.forEach(function(index) {
-          // update the counter
-          counter++
+        data.list.forEach(function(index, i) {
+          if (document.querySelector('#tempatureSpan' + i)) {
+            var tempatureSpan = document.querySelector('#tempatureSpan' + i)
+            var forecastMaxTemp = index.temp.max
+            var forecastMinTemp = index.temp.min
+
+            if (tempatureSpan.innerHTML.indexOf('F') != -1) {
+              tempatureSpan.innerHTML =
+                forecastMaxTemp +
+                ' &deg;C' +
+                ' / ' +
+                forecastMinTemp +
+                ' &deg;C'
+            } else {
+              tempatureSpan.innerHTML =
+                forecastMaxTemp +
+                ' &deg;F' +
+                ' / ' +
+                forecastMinTemp +
+                ' &deg;F'
+            }
+            return
+          }
 
           // assign forecast data of the day to variables.
           var sectionForecast = document.getElementById('sectionForecast')
@@ -148,6 +158,9 @@ var model = {
           dateSpan.className = 'date-forecast forecast--span'
           tempatureSpan.className = 'tempature-forecast forecast--span'
           descriptionSpan.className = 'description-forecast forecast--span'
+
+          // assign id to tempature span so we can update its data.
+          tempatureSpan.id = 'tempatureSpan' + i
 
           var forecastDay = moment.unix(index.dt).format('dddd, DD MMM')
           var forecastMaxTemp = index.temp.max
