@@ -1,4 +1,8 @@
+// variable to keep track what unit is displayed to the user.
 var unit = 'metric'
+
+// flag variable to keep track how many times the removePreloader() is called.
+var myflag = false
 
 function conversion() {
   var checkbox = document.getElementById('checkbox').checked
@@ -269,17 +273,20 @@ var view = {
     view.removePreloader()
   },
   removePreloader: function() {
-    var loader = document.getElementById('loader')
+    if (!myflag) {
+      var loader = document.getElementById('loader')
 
-    // wait to make sure all data is loaded into page
-    setTimeout(function() {
-      loader.className = 'fadeout'
-    }, 2000)
+      // wait to make sure all data is loaded into page
+      setTimeout(function() {
+        loader.className = 'fadeout'
+      }, 2000)
 
-    // wait until fadeout of preloader is done
-    setTimeout(function() {
-      loader.remove()
-    }, 4000)
+      // wait until fadeout of preloader is done
+      setTimeout(function() {
+        loader.remove()
+      }, 4000)
+    }
+    myflag = true
   }
 }
 
