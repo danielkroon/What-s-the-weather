@@ -2,13 +2,19 @@
 var unit = 'metric'
 
 // flag variable to keep track how many times the removePreloader() is called.
-var myflag = false
+var preLoaderFlag = false
+var getCityFlag = false
 
 function conversion() {
   var checkbox = document.getElementById('checkbox').checked
   if (checkbox == true) {
     unit = 'imperial'
-    model.getLocation(unit)
+
+    if (!getCityFlag) {
+      model.getCity(unit)
+    } else {
+      model.getLocation(unit)
+    }
 
     var x = document.querySelector('#deg')
     x.innerHTML = '&deg;F'
@@ -79,6 +85,25 @@ var model = {
       model.getForecast(latitude, longitude, unit)
     }
   },
+  getCity: function(unit) {
+    var cityInput = document.getElementById('location')
+    var cityInputValue = cityInput.value
+    console.log(cityInputValue)
+    model.getWeatherByCity(cityInputValue, unit)
+    model.getForecastByCity(cityInputValue, unit)
+  },
+  getWeatherByCity: function(cityInputValue) {
+    var keyWeather = 'c77539be6727a262645abebe5edee96c'
+    var weather =
+      'http://api.openweathermap.org/data/2.5/weather?q=' +
+      cityInputValue +
+      '&APPID=' +
+      keyWeather +
+      '&units=' +
+      unit
+
+    model.getWeatherAjaxCall(weather)
+  },
   getWeather: function(latitude, longitude, unit) {
     var keyWeather = 'c77539be6727a262645abebe5edee96c'
     var weather =
@@ -91,6 +116,10 @@ var model = {
       '&units=' +
       unit
 
+    model.getWeatherAjaxCall(weather)
+    getCityFlag = true
+  },
+  getWeatherAjaxCall: function(weather) {
     $.ajax({
       url: weather,
       dataType: 'jsonp',
@@ -103,6 +132,19 @@ var model = {
         view.changeBackground(data)
       }
     })
+  },
+  getForecastByCity: function(cityInputValue) {
+    var keyForecast = '36b9b3713724a3a85221616772b7af78'
+    var forecast =
+      'http://api.openweathermap.org/data/2.5/forecast/daily?q=' +
+      cityInputValue +
+      '&APPID=' +
+      keyForecast +
+      '&units=' +
+      unit +
+      '&cnt=5'
+
+    model.getForecastAjaxCall(forecast)
   },
   getForecast: function(latitude, longitude, unit) {
     var keyForecast = '36b9b3713724a3a85221616772b7af78'
@@ -117,6 +159,9 @@ var model = {
       unit +
       '&cnt=5'
 
+    model.getForecastAjaxCall(forecast)
+  },
+  getForecastAjaxCall: function(forecast) {
     $.ajax({
       url: forecast,
       dataType: 'jsonp',
@@ -128,6 +173,7 @@ var model = {
 
         // loop over list array. Each array item is one day.
         data.list.forEach(function(index, i) {
+          debugger
           if (document.querySelector('#tempatureSpan' + i)) {
             var tempatureSpan = document.querySelector('#tempatureSpan' + i)
             var forecastMaxTemp = index.temp.max
@@ -282,7 +328,7 @@ var view = {
     view.removePreloader()
   },
   removePreloader: function() {
-    if (!myflag) {
+    if (!preLoaderFlag) {
       var loader = document.getElementById('loader')
 
       // wait to make sure all data is loaded into page
@@ -295,9 +341,17 @@ var view = {
         loader.remove()
       }, 4000)
     }
-    myflag = true
+    preLoaderFlag = true
   }
 }
+
+// eventlistener Enter Key city input
+document.getElementById('location').addEventListener('keypress', function(e) {
+  var key = e.which || e.keyCode
+  if (key === 13) {
+    model.getCity()
+  }
+})
 
 // call function when document is loaded
 document.onload = model.getLocation()
