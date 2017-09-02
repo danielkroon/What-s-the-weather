@@ -10,7 +10,7 @@ function conversion() {
   if (checkbox == true) {
     unit = 'imperial'
 
-    if (!getCityFlag) {
+    if (getCityFlag) {
       model.getCity(unit)
     } else {
       model.getLocation(unit)
@@ -20,7 +20,12 @@ function conversion() {
     x.innerHTML = '&deg;F'
   } else {
     unit = 'metric'
-    model.getLocation(unit)
+
+    if (getCityFlag) {
+      model.getCity(unit)
+    } else {
+      model.getLocation(unit)
+    }
 
     var x = document.querySelector('#deg')
     x.innerHTML = '&deg;C'
@@ -91,6 +96,8 @@ var model = {
     console.log(cityInputValue)
     model.getWeatherByCity(cityInputValue, unit)
     model.getForecastByCity(cityInputValue, unit)
+
+    getCityFlag = true
   },
   getWeatherByCity: function(cityInputValue) {
     var keyWeather = 'c77539be6727a262645abebe5edee96c'
@@ -117,7 +124,6 @@ var model = {
       unit
 
     model.getWeatherAjaxCall(weather)
-    getCityFlag = true
   },
   getWeatherAjaxCall: function(weather) {
     $.ajax({
@@ -173,13 +179,12 @@ var model = {
 
         // loop over list array. Each array item is one day.
         data.list.forEach(function(index, i) {
-          debugger
           if (document.querySelector('#tempatureSpan' + i)) {
             var tempatureSpan = document.querySelector('#tempatureSpan' + i)
             var forecastMaxTemp = index.temp.max
             var forecastMinTemp = index.temp.min
 
-            if (tempatureSpan.innerHTML.indexOf('F') != -1) {
+            if (unit === 'metric') {
               tempatureSpan.innerHTML =
                 forecastMaxTemp +
                 ' &deg;C' +
