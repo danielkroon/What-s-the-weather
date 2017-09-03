@@ -102,7 +102,7 @@ var model = {
   getWeatherByCity: function(cityInputValue) {
     var keyWeather = 'c77539be6727a262645abebe5edee96c'
     var weather =
-      'http://api.openweathermap.org/data/2.5/weather?q=' +
+      'https://api.openweathermap.org/data/2.5/weather?q=' +
       cityInputValue +
       '&APPID=' +
       keyWeather +
@@ -114,7 +114,7 @@ var model = {
   getWeather: function(latitude, longitude, unit) {
     var keyWeather = 'c77539be6727a262645abebe5edee96c'
     var weather =
-      'http://api.openweathermap.org/data/2.5/weather?lat=' +
+      'https://api.openweathermap.org/data/2.5/weather?lat=' +
       latitude +
       '&lon=' +
       longitude +
@@ -142,7 +142,7 @@ var model = {
   getForecastByCity: function(cityInputValue) {
     var keyForecast = '36b9b3713724a3a85221616772b7af78'
     var forecast =
-      'http://api.openweathermap.org/data/2.5/forecast/daily?q=' +
+      'https://api.openweathermap.org/data/2.5/forecast/daily?q=' +
       cityInputValue +
       '&APPID=' +
       keyForecast +
@@ -155,7 +155,7 @@ var model = {
   getForecast: function(latitude, longitude, unit) {
     var keyForecast = '36b9b3713724a3a85221616772b7af78'
     var forecast =
-      'http://api.openweathermap.org/data/2.5/forecast/daily?lat=' +
+      'https://api.openweathermap.org/data/2.5/forecast/daily?lat=' +
       latitude +
       '&lon=' +
       longitude +
