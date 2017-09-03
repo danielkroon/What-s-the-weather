@@ -265,42 +265,42 @@ var view = {
     switch (iconID) {
       case '01d':
       case '01n':
-        icon.src = '../images/clear.svg'
+        icon.src = 'images/clear.svg'
         break
       case '02d':
       case '02n':
-        icon.src = '../images/mostlysunny.svg'
+        icon.src = 'images/mostlysunny.svg'
         break
       case '03d':
       case '03n':
-        icon.src = '../images/partlysunny.svg'
+        icon.src = 'images/partlysunny.svg'
         break
       case '04d':
       case '04n':
-        icon.src = '../images/cloudy.svg'
+        icon.src = 'images/cloudy.svg'
         break
       case '09d':
       case '09n':
-        icon.src = '../images/rain.svg'
+        icon.src = 'images/rain.svg'
         break
       case '10d':
       case '10n':
-        icon.src = '../images/chancerain.svg'
+        icon.src = 'images/chancerain.svg'
         break
       case '11d':
       case '11n':
-        icon.src = '../images/tstorms.svg'
+        icon.src = 'images/tstorms.svg'
         break
       case '13d':
       case '13n':
-        icon.src = '../images/chancesnow.svg'
+        icon.src = 'images/chancesnow.svg'
         break
       case '50d':
       case '50n':
-        icon.src = '../images/fog.svg'
+        icon.src = 'images/fog.svg'
         break
       default:
-        icon.src = '../images/unknown.svg'
+        icon.src = 'images/unknown.svg'
     }
   },
   changeBackground: function(data) {
