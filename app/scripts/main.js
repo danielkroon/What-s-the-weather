@@ -253,8 +253,14 @@ var view = {
     document.getElementById('time-forecast').innerHTML = timeForecast
   },
   getIcon: function(data) {
-    var icon = document.getElementById('icon-img')
     var iconID = data.weather[0].icon
+
+    // asynchronous image loading
+    var icon = document.getElementById('icon-img')
+    var downloadingImage = new Image()
+    downloadingImage.onload = function() {
+      icon.src = this.src
+    }
 
     switch (iconID) {
       case '01d':
