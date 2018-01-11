@@ -1,9 +1,15 @@
 // base
 @import "base/typography";
 
+// variables
+@import "helpers/variables";
+
 // layout
 @import "layout/grid";
 @import "layout/pure-responsive-min";
+
+// mixin
+@import "helpers/mixins";
 
 // pages
 @import "pages/pages";
