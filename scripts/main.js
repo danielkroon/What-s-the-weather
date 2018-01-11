@@ -1,15 +1,13 @@
 'use strict'
 function conversion() {
   if (1 == document.getElementById('checkbox').checked) {
-    ;(unit = 'imperial'), getCityFlag
-      ? model.getCity(unit)
-      : model.getLocation(unit)
+    ;(unit = 'imperial'),
+      getCityFlag ? model.getCity(unit) : model.getLocation(unit)
     var e = document.querySelector('#deg')
     e.innerHTML = '&deg;F'
   } else {
-    ;(unit = 'metric'), getCityFlag
-      ? model.getCity(unit)
-      : model.getLocation(unit)
+    ;(unit = 'metric'),
+      getCityFlag ? model.getCity(unit) : model.getLocation(unit)
     var e = document.querySelector('#deg')
     e.innerHTML = '&deg;C'
   }
@@ -41,8 +39,9 @@ function displayTime() {
     i = document.getElementById('clock'),
     d = document.getElementById('minutes'),
     m = document.getElementById('calender')
-  ;(i.innerHTML = t), (d.innerHTML = a + ' ' + c), (m.innerHTML =
-    s[o] + ' ' + n + ' ' + r)
+  ;(i.innerHTML = t),
+    (d.innerHTML = a + ' ' + c),
+    (m.innerHTML = s[o] + ' ' + n + ' ' + r)
 }
 var unit = 'metric',
   preLoaderFlag = !1,
@@ -60,10 +59,10 @@ var unit = 'metric',
       function a(e) {
         var t = e.coords.latitude,
           a = e.coords.longitude
-        sessionStorage.setItem('latitude', t), sessionStorage.setItem(
-          'longitude',
-          a
-        ), model.getWeather(t, a, unit), model.getForecast(t, a, unit)
+        sessionStorage.setItem('latitude', t),
+          sessionStorage.setItem('longitude', a),
+          model.getWeather(t, a, unit),
+          model.getForecast(t, a, unit)
       }
       var n = { enableHighAccuracy: !0, timeout: 5e3, maximumAge: 0 }
       if ('undefined' != typeof Storage)
@@ -80,10 +79,9 @@ var unit = 'metric',
     getCity: function(e) {
       var t = document.getElementById('location'),
         a = t.value
-      model.getWeatherByCity(a, e), model.getForecastByCity(
-        a,
-        e
-      ), (getCityFlag = !0)
+      model.getWeatherByCity(a, e),
+        model.getForecastByCity(a, e),
+        (getCityFlag = !0)
     },
     getWeatherByCity: function(e) {
       var t =
@@ -159,13 +157,23 @@ var unit = 'metric',
               i = document.createElement('span'),
               n = document.createElement('span'),
               d = document.createElement('span')
-            ;(s.className =
-              'pure-u-1 pure-u-md-4-24 day'), (i.className = 'date-forecast forecast--span'), (n.className = 'tempature-forecast forecast--span'), (d.className = 'description-forecast forecast--span'), (n.id = 'tempatureSpan' + a)
+            ;(s.className = 'pure-u-1 pure-u-md-4-24 day'),
+              (i.className = 'date-forecast forecast--span'),
+              (n.className = 'tempature-forecast forecast--span'),
+              (d.className = 'description-forecast forecast--span'),
+              (n.id = 'tempatureSpan' + a)
             var m = moment.unix(e.dt).format('dddd, DD MMM'),
               o = e.temp.max,
               r = e.temp.min,
               l = e.weather[0].description
-            ;(i.innerHTML = m), (n.innerHTML = o + ' &deg;C / ' + r + ' &deg;C'), (d.innerHTML = l), s.appendChild(i), s.appendChild(n), s.appendChild(d), t.appendChild(s), c.appendChild(t)
+            ;(i.innerHTML = m),
+              (n.innerHTML = o + ' &deg;C / ' + r + ' &deg;C'),
+              (d.innerHTML = l),
+              s.appendChild(i),
+              s.appendChild(n),
+              s.appendChild(d),
+              t.appendChild(s),
+              c.appendChild(t)
           })
         }
       })
@@ -173,28 +181,22 @@ var unit = 'metric',
   },
   view = {
     showWeather: function(e, t, a) {
-      ;(document.getElementById(
-        'tempature'
-      ).innerHTML = e), (document.getElementById(
-        'description'
-      ).innerHTML = t), (document.getElementById('city').innerHTML = a)
+      ;(document.getElementById('tempature').innerHTML = e),
+        (document.getElementById('description').innerHTML = t),
+        (document.getElementById('city').innerHTML = a)
     },
     showForecast: function(e, t, a) {
-      ;(document.getElementById(
-        'tempature-forecast'
-      ).innerHTML = t), (document.getElementById(
-        'description-forecast'
-      ).innerHTML = a), (document.getElementById('time-forecast').innerHTML = e)
+      ;(document.getElementById('tempature-forecast').innerHTML = t),
+        (document.getElementById('description-forecast').innerHTML = a),
+        (document.getElementById('time-forecast').innerHTML = e)
     },
     getIcon: function(e) {
       var t = e.weather[0].icon,
         a = document.getElementById('icon-img')
-      switch ((
-        (new Image().onload = function() {
-          a.src = this.src
-        }),
-        t
-      )) {
+      switch (((new Image().onload = function() {
+        a.src = this.src
+      }),
+      t)) {
         case '01d':
         case '01n':
           a.src = 'images/clear.svg'
@@ -268,16 +270,17 @@ var unit = 'metric',
         var e = document.getElementById('loader')
         setTimeout(function() {
           e.className = 'fadeout'
-        }, 2e3), setTimeout(function() {
-          e.remove()
-        }, 4e3)
+        }, 2e3),
+          setTimeout(function() {
+            e.remove()
+          }, 4e3)
       }
       preLoaderFlag = !0
     }
   }
 document.getElementById('location').addEventListener('keypress', function(e) {
   13 === (e.which || e.keyCode) && model.getCity()
-}), (document.onload = model.getLocation()), (document.onload = displayTime()), setInterval(
-  displayTime,
-  1e3
-)
+}),
+  (document.onload = model.getLocation()),
+  (document.onload = displayTime()),
+  setInterval(displayTime, 1e3)
